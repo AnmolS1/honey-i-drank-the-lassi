@@ -1,19 +1,136 @@
 <header>
-	<h2 class="header__title">
-		{{ shop.name | link_to: routes.root_url }}
-	</h2>
-
+	<div class="header__logo">
+		{% if section.settings.logo %}
+			{% assign logo_height = section.settings.logo_height | default: 40 %}
+			<a href="{{ routes.root_url }}">
+				{{ section.settings.logo | image_url: width: 300 | image_tag:
+					height: logo_height,
+					width: section.settings.logo_width,
+					alt: shop.name,
+					class: 'header__logo-image',
+					loading: 'eager'
+				}}
+			</a>
+		{% else %}
+			<h2 class="header__title">
+				{{ shop.name | link_to: routes.root_url }}
+			</h2>
+		{% endif %}
+	</div>
+	
 	<div class="header__menu">
 		{% for link in section.settings.menu.links %}
 			{{ link.title | link_to: link.url }}
 		{% endfor %}
 	</div>
-
+	
 	<div class="header__icons">
 		{% if shop.customer_accounts_enabled %}
 			{{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
 		{% endif %}
+		
+		<a href="{{ routes.cart_url }}">
+			{% if cart.item_count > 0 %}
+				<sup>{{ cart.item_count }}</sup>
+			{% endif %}
+			{{ 'icon-cart.svg' | inline_asset_content }}
+		</a>
+	</div>
+</header>
 
+{% stylesheet %}
+	header {
+		height: 5rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 var(--page-margin);
+	}
+	header a {
+		position: relative;
+		text-decoration: none;
+		color: var(--color-foreground);
+	}
+	header a sup {
+		position: absolute;
+		left: 100%;
+		overflow: hidden;
+		max-width: var(--page-margin);
+	}
+	header svg {
+		width: 2rem;
+	}
+	header .header__menu,
+	header .header__icons {
+		display: flex;
+		gap: 1rem;
+	}
+	.header__logo-image {
+		height: auto;
+		max-height: 100%;
+		width: auto;
+		max-width: 200px;
+	}
+	.header__title {
+		margin: 0;
+	}
+{% endstylesheet %}
+
+{% schema %}
+{
+	"name": "t:general.header",
+	"settings": [
+		{
+			"type": "link_list",
+			"id": "menu",
+			"label": "t:labels.menu"
+		},
+		{
+			"type": "image_picker",
+			"id": "logo",
+			"label": "Logo image"
+		},
+		{
+			"type": "range",
+			"id": "logo_height",
+			"min": 20,
+			"max": 100,
+			"step": 2,
+			"unit": "px",
+			"label": "Logo height",
+			"default": 40
+		},
+		{
+			"type": "range",
+			"id": "logo_width",
+			"min": 100,
+			"max": 300,
+			"step": 10,
+			"unit": "px",
+			"label": "Logo width (max)",
+			"default": 200
+		}
+	]
+}
+{% endschema %}
+
+
+{% comment %} <header>
+	<h2 class="header__title">
+		{{ shop.name | link_to: routes.root_url }}
+	</h2>
+	
+	<div class="header__menu">
+		{% for link in section.settings.menu.links %}
+			{{ link.title | link_to: link.url }}
+		{% endfor %}
+	</div>
+	
+	<div class="header__icons">
+		{% if shop.customer_accounts_enabled %}
+			{{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
+		{% endif %}
+		
 		<a href="{{ routes.cart_url }}">
 			{% if cart.item_count > 0 %}
 				<sup>{{ cart.item_count }}</sup>
@@ -63,4 +180,4 @@
 		}
 	]
 }
-{% endschema %}
+{% endschema %} {% endcomment %}

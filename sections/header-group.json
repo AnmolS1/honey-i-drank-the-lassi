@@ -8,15 +8,15 @@
  * ------------------------------------------------------------
  */
 {
-	"type": "header",
-	"name": "t:general.header",
-	"sections": {
-		"header": {
-			"type": "header",
-			"settings": {}
-		}
-	},
-	"order": [
-		"header"
-	],
+  "type": "header",
+  "name": "t:general.header",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {}
+    }
+  },
+  "order": [
+    "header"
+  ]
 }
