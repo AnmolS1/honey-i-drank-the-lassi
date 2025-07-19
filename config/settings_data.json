@@ -8,5 +8,9 @@
  * ------------------------------------------------------------
  */
 {
-  "current": {}
+  "current": {
+    "logo": "shopify://shop_images/gm_logo_full.png",
+    "favicon": "shopify://shop_images/gm_logo.png",
+    "content_for_index": []
+  }
 }
