@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
 	<head>
+		<style>
+			@font-face {
+				font-family: 'Lalezar';
+				src: url('{{ 'gm_fonts_lalezar.ttf' | asset_url }}') format('truetype');
+				font-weight: normal;
+				font-style: normal;
+			}
+		</style>
+		
 		{% # Inlined CSS Variables %}
 		{% render 'css-variables' %}
 
