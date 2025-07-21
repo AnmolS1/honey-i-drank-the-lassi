@@ -3,7 +3,7 @@
 		{% if section.settings.logo %}
 			{% assign logo_height = section.settings.logo_height | default: 40 %}
 			<a href="{{ routes.root_url }}">
-				{{ section.settings.logo | image_url: width: 300 | image_tag:
+				{{ section.settings.logo | image_url: width: 220 | image_tag:
 					height: logo_height,
 					width: section.settings.logo_width,
 					alt: shop.name,
@@ -25,11 +25,14 @@
 	</div>
 	
 	<div class="header__icons">
-		{% if shop.customer_accounts_enabled %}
-			{{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
-		{% endif %}
+		<a href="{{ routes.all_products_collection_url }}" class="shop-now-btn">
+			<span class="shop-now-btn__shadow"></span>
+			<span class="shop-now-btn__main">
+				<span class="shop-now-btn__text">SHOP NOW</span>
+			</span>
+		</a>
 		
-		<a href="{{ routes.cart_url }}">
+		<a href="{{ routes.cart_url }}" class="header__cart">
 			{% if cart.item_count > 0 %}
 				<sup>{{ cart.item_count }}</sup>
 			{% endif %}
@@ -40,10 +43,11 @@
 
 {% stylesheet %}
 	header {
-		height: 5rem;
+		height: 7.5rem;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		padding: 0 var(--page-margin);
 		padding: 0 var(--page-margin);
 	}
 	header a {
@@ -60,10 +64,99 @@
 	header svg {
 		width: 2rem;
 	}
-	header .header__menu,
-	header .header__icons {
+	header .header__menu, header .header__icons {
 		display: flex;
 		gap: 1rem;
+		align-items: center;
+	}
+	header .header__icons {
+		gap: 2rem;
+	}
+	.header__logo-image {
+		height: auto;
+		max-height: 100%;
+		width: auto;
+		max-width: 200px;
+	}
+	.header__title {
+		margin: 0;
+	}
+	
+	.header__menu a {
+		padding: 0 0 0.28125rem;
+		font-family: 'Lalezar', sans-serif;
+		font-weight: 400;
+		font-size: 2.25rem;
+		line-height: 1;
+		color: #F62D93;
+		text-transform: uppercase;
+		letter-spacing: 0.0703125rem;
+	}
+	
+	.header__menu a::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 0;
+		height: 2px;
+		background: #F62D93;
+		transition: width 0.3s ease;
+	}
+	
+	.header__menu a:hover::after {
+		width: 45px;
+	}
+	
+	.shop-now-btn {
+		position: relative;
+		display: inline-block;
+		width: 100%;
+		min-width: 250px;
+		height: 80px;
+		text-decoration: none;
+	}
+	
+	.shop-now-btn__shadow {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: #2E65C2;
+		border-radius: 20px;
+		bottom: -4.5px;
+		right: -9px;
+		z-index: 1;
+	}
+	
+	.shop-now-btn__main {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background: #F62D93;
+		border-radius: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 2;
+		top: -4.5px;
+		transition: transform 0.2s ease;
+	}
+	
+	.shop-now-btn:hover .shop-now-btn__main {
+		transform: translate(-3px, -3px);
+	}
+	
+	.shop-now-btn__text {
+		font-family: 'Lalezar', sans-serif;
+		font-size: 33px;
+		line-height: 1;
+		color: #F4E6D2;
+		letter-spacing: 0.5px;
+		text-transform: uppercase;
+	}
+	
+	.header__cart svg {
+		width: 3.5rem;
 	}
 	.header__logo-image {
 		height: auto;
@@ -136,8 +229,53 @@
 			"step": 10,
 			"unit": "px",
 			"label": "Logo width (max)",
-			"default": 200
+			"default": 220
 		}
 	]
 }
 {% endschema %}
+
+{% comment %}
+/* shop_now_btn */
+
+position: absolute;
+width: 285.7px;
+height: 89.67px;
+
+
+/* show_now_btn_shadow */
+
+position: absolute;
+width: 276.15px;
+height: 79.62px;
+
+background: #2E65C2;
+border-radius: 20px;
+
+
+/* show_now_btn_main */
+
+position: absolute;
+width: 276.15px;
+height: 79.62px;
+
+background: #F62D93;
+border-radius: 20px;
+
+
+/* shop_now_txt */
+
+position: absolute;
+width: 180px;
+height: 13.33px;
+
+font-family: 'Lalezar';
+font-style: normal;
+font-weight: 400;
+font-size: 33.33px;
+line-height: 52px;
+
+color: #F4E6D2;
+
+
+{% endcomment %}
