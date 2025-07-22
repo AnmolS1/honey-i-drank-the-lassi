@@ -61,15 +61,13 @@
 		overflow: hidden;
 		max-width: var(--page-margin);
 	}
-	header svg {
-		width: 2rem;
-	}
 	header .header__menu, header .header__icons {
 		display: flex;
 		align-items: center;
 	}
 	header .header__menu {
-		gap: max(1rem, 4vw);
+		width: 100%;
+		justify-content: space-evenly;
 	}
 	header .header__icons {
 		gap: 2rem;
@@ -159,6 +157,7 @@
 	
 	.header__cart svg {
 		width: 3.5rem;
+		min-width: 3.5rem;
 	}
 	.header__logo-image {
 		height: auto;
@@ -236,48 +235,3 @@
 	]
 }
 {% endschema %}
-
-{% comment %}
-/* shop_now_btn */
-
-position: absolute;
-width: 285.7px;
-height: 89.67px;
-
-
-/* show_now_btn_shadow */
-
-position: absolute;
-width: 276.15px;
-height: 79.62px;
-
-background: #2E65C2;
-border-radius: 20px;
-
-
-/* show_now_btn_main */
-
-position: absolute;
-width: 276.15px;
-height: 79.62px;
-
-background: #F62D93;
-border-radius: 20px;
-
-
-/* shop_now_txt */
-
-position: absolute;
-width: 180px;
-height: 13.33px;
-
-font-family: 'Lalezar';
-font-style: normal;
-font-weight: 400;
-font-size: 33.33px;
-line-height: 52px;
-
-color: #F4E6D2;
-
-
-{% endcomment %}
