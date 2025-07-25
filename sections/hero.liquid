@@ -1,24 +1,246 @@
+{% comment %} hero.liquid {% endcomment %}
 <div class="gm-hero">
 	<div class="hero-video">
-		
+		{% if section.settings.hero_video %}
+			{% assign video_url = section.settings.hero_video.sources[1].url %}
+			<video class="hero-video-element" autoplay muted loop playsinline>
+				<source src="{{ video_url }}" type="video/mp4">
+			</video>
+		{% elsif section.settings.fallback_image %}
+			{{
+				section.settings.fallback_image | image_url: width: 200 | image_tag:
+				loading: 'eager',
+				class: 'hero-video-fallback',
+				alt: 'hero background'
+			}}
+		{% else %}
+			<div class="hero-video-placeholder"></div>
+		{% endif %}
 	</div>
 	
-	<div class="hero-banner">
+	<div class="banner-container">
+		<div class="banner">
+			<img src="{{ 'gm_wave_banner.png' | asset_url }}" alt="" class="banner-image" loading="eager" height="100%" width="100%">
+		</div>
 		
+		<div class="banner-content">
+			<div class="stat">
+				<div class="biggie">20g</div>
+				<div class="smalls">protein</div>
+			</div>
+			<div class="stat">
+				<div class="biggie">130</div>
+				<div class="smalls">calories</div>
+			</div>
+			<div class="stat">
+				<div class="biggie">CLEAN</div>
+				<div class="smalls">ingredients</div>
+			</div>
+		</div>
 	</div>
 </div>
 
 {% stylesheet %}
+	/* ===== BANNER STYLES ===== */
+	.banner-content {
+		position: absolute;
+		top: 50%;
+		left: 0;
+		width: 100%;
+		transform: translateY(-50%);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		z-index: 2;
+		min-width: 100%;
+	}
 	
+	.stat {
+		flex: 1;
+		min-width: 0;
+		font-family: 'Impact', sans-serif;
+		display: inline-flex;
+		justify-content: center;
+		flex-direction: row;
+		align-items: center;
+		text-align: center;
+		white-space: nowrap;
+	}
+	
+	.stat:first-child  { flex: 1; }
+	.stat:nth-child(2) { flex: 1; }
+	.stat:last-child   { flex: 1.5; }
+	
+	.biggie {
+		font-size: clamp(2.25rem, 6vw, 8rem);
+		line-height: 1;
+		color: #F4E6D2;
+		font-weight: bold;
+		text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+		overflow: hidden;
+	}
+	
+	.smalls {
+		font-size: clamp(1rem, 1.6vw, 2rem);
+		white-space: nowrap;
+		overflow: hidden;
+		line-height: 1.2;
+		color: #F4E6D2;
+		text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+		margin-top: 0.5em;
+	}
+	
+	/* ===== MOBILE STYLES ===== */
+	.gm-hero {
+		position: relative;
+		width: 100%;
+		margin-bottom: 0;
+		padding-bottom: 0;
+	}
+	
+	.hero-video {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 16/9; /* fallback for older browsers */
+		position: relative;
+		margin-bottom: -20px;
+		z-index: 1;
+	}
+	
+	.hero-video-element,
+	.hero-video-fallback {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+	
+	.hero-video-placeholder {
+		width: 100%;
+		aspect-ratio: 16/9;
+		background: #F62D93;
+	}
+	
+	.banner-container {
+		position: relative;
+		width: 100%;
+		height: 100px;
+		z-index: 2;
+	}
+	
+	.banner {
+		will-change: transform;
+		backface-visibility: hidden;
+		position: absolute;
+		width: 200%;
+		height: 100%;
+		bottom: 0;
+		animation: waveScroll 10s linear infinite;
+	}
+	
+	.banner-image {
+		width: 100%;
+		height: 100%;
+		object-position: bottom;
+	}
+	
+	.wave-content {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 2;
+		text-align: center;
+		width: 100%;
+	}
+	
+	.wave-text {
+		color: #F4E6D2;
+		margin: 0;
+	}
+	
+	@keyframes waveScroll {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translateX(-50%);
+		}
+	}
+	
+	@media (min-width: 768px) {
+		.biggie {
+			font-size: clamp(4rem, 8vw, 8rem);
+		}
+		.smalls {
+			font-size: clamp(1rem, 2vw, 2rem);
+		}
+		
+		.stat {
+			padding: 0 2%;
+		}
+		
+		.gm-hero {
+			padding-bottom: 0;
+		}
+		
+		.banner-container {
+			height: 50%;
+			margin-top: -40px;
+		}
+		
+		.banner {
+			animation-duration: 20s;
+		}
+		
+		.banner-image {
+			width: 100%;
+			height: 50%;
+		}
+		
+		.banner-content {
+			top: 25%;
+		}
+		
+		/*
+		.section-after-hero {
+			position: relative;
+			top: -1px;
+		}
+		*/
+	}
+	
+	@media (max-width: 480px) {
+		.banner-content {
+			padding: 0 2%; /* tighter spacing on small phones */
+		}
+		.stat {
+			margin: 0 1%; /* reduce spacing between stats */
+		}
+	}
 {% endstylesheet %}
 
 {% schema %}
 {
 	"name": "t:general.hero",
-	"settings": [],
+	"class": "shopify-section--full-width",
+	"settings": [
+		{
+			"type": "video",
+			"id": "hero_video",
+			"label": "Hero background video",
+		},
+		{
+			"type": "image_picker",
+			"id": "fallback_image",
+			"label": "Fallback image",
+			"info" : "Shows if video can't load"
+		}
+	],
 	"presets": [
 		{
 			"name": "Hero",
+			"settings": {}
 		}
 	]
 }
