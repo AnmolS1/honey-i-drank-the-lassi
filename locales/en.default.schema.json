@@ -40,7 +40,8 @@
 		"sidebar": "Sidebar",
 		"text": "Text",
 		"theme": "Theme",
-		"typography": "Typography"
+		"typography": "Typography",
+		"hero": "Hero"
 	},
 	"labels": {
 		"alignment": "Alignment",

@@ -1,3 +1,4 @@
+{% comment %} header.liquid {% endcomment %}
 <header>
 	<div class="header__logo">
 		{% if section.settings.logo %}
@@ -18,13 +19,25 @@
 		{% endif %}
 	</div>
 	
-	<div class="header__menu">
-		{% for link in section.settings.menu.links %}
-			{{ link.title | link_to: link.url }}
-		{% endfor %}
+	<div class="menu-container">
+		<nav class="desktop_menu">
+			{% for link in section.settings.menu.links %}
+				{{ link.title | link_to: link.url }}
+			{% endfor %}
+		</nav>
+		
+		<nav class="mobile_menu" style="display: none;">
+			{% for link in section.settings.menu.links %}
+				{{ link.title | link_to: link.url }}
+			{% endfor %}
+		</nav>
 	</div>
 	
 	<div class="header__icons">
+		<button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+			<span class="hamburger"></span>
+		</button>
+		
 		<a href="{{ routes.all_products_collection_url }}" class="shop-now-btn">
 			<span class="shop-now-btn__shadow"></span>
 			<span class="shop-now-btn__main">
@@ -42,58 +55,120 @@
 </header>
 
 {% stylesheet %}
+	/* ===== MOBILE ===== */
+	/* base styles */
 	header {
-		height: 7.5rem;
+		height: 6rem;
 		display: flex;
+		/* flex-wrap: wrap; allows row breaking, might not need */
 		align-items: center;
 		justify-content: space-between;
-		padding: 0 var(--page-margin);
-		padding: 0 var(--page-margin);
-	}
-	header a {
+		padding: 0;
 		position: relative;
-		text-decoration: none;
-		color: var(--color-foreground);
 	}
-	header a sup {
-		position: absolute;
-		left: 100%;
-		overflow: hidden;
-		max-width: var(--page-margin);
+	
+	/* logo */
+	.header__logo {
+		margin-right: auto;
 	}
-	header .header__menu, header .header__icons {
-		display: flex;
-		align-items: center;
-	}
-	header .header__menu {
-		width: 100%;
-		justify-content: space-evenly;
-	}
-	header .header__icons {
-		gap: 2rem;
-	}
+	
 	.header__logo-image {
 		height: auto;
-		max-height: 100%;
+		max-height: 3.5rem;
 		width: auto;
 		max-width: 200px;
 	}
-	.header__title {
-		margin: 0;
+	
+	/* mobile menu's default state */
+	.desktop_menu {
+		display: none; /* hidden on mobile */
 	}
 	
-	.header__menu a {
+	.mobile_menu {
+		display: none; /* hidden until toggled */
+		position: fixed;
+		top: 7.5rem;
+		left: 0;
+		width: 100%;
+		background: white;
+		flex-direction: column;
+		padding: 2rem;
+		z-index: 1000;
+		box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+	}
+	
+	/* mobile toggle button */
+	.mobile-menu-toggle {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		background: transparent;
+		border: none;
+		/* padding: 1rem; */
+		cursor: pointer;
+		z-index: 1001;
+	}
+	
+	/* hamburger icon */
+	.hamburger {
+		position: relative;
+		width: 30px;
+		height: 3px;
+		background: #6495ED;
+		transition: all 0.3s ease;
+	}
+	
+	.hamburger::before,
+	.hamburger::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		width: 30px;
+		height: 3px;
+		background: #6495ED;
+		transition: all 0.3s ease;
+	}
+	
+	.hamburger::before {
+		transform: translateY(-8px);
+	}
+	
+	.hamburger::after {
+		transform: translateY(8px);
+	}
+	
+	/* active states */
+	.mobile-menu-toggle[aria-expanded="true"] .hamburger {
+		background: transparent;
+	}
+	.mobile-menu-toggle[aria-expanded="true"] .hamburger::before {
+		transform: rotate(45deg);
+	}
+	.mobile-menu-toggle[aria-expanded="true"] .hamburger::after {
+		transform: rotate(-45deg);
+	}
+	
+	.mobile-menu-toggle[aria-expanded="true"] + .menu-container .mobile-menu {
+		display: flex;
+	}
+	
+	/* shared menu link styles */
+	.menu-container a {
+		position: relative;
+		display: inline-block;
 		padding: 0 0 0.28125rem;
 		font-family: 'Lalezar', sans-serif;
 		font-weight: 400;
-		font-size: 3rem;
-		line-height: 1;
+		font-size: 2.25rem;
+		line-height: 1.1;
 		color: #F62D93;
 		text-transform: uppercase;
 		letter-spacing: 0.0703125rem;
+		text-decoration: none;
 	}
 	
-	.header__menu a::after {
+	.menu-container a::after {
 		content: '';
 		position: absolute;
 		bottom: 0;
@@ -104,16 +179,36 @@
 		transition: width 0.3s ease;
 	}
 	
-	.header__menu a:hover::after {
+	.menu-container a:hover::after {
 		width: 45px;
 	}
 	
+	/* mobile menu links */
+	.mobile-menu a {
+		padding: 1rem 0;
+		text-align: center;
+		width: 100%;
+	}
+	
+	/* header icons */
+	.header__icons {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+	}
+	
+	.header__cart svg {
+		width: 2.5rem;
+		min-width: 2.5rem;
+	}
+	
+	/* shop now button */
 	.shop-now-btn {
 		position: relative;
 		display: inline-block;
 		width: 100%;
-		min-width: 250px;
-		height: 80px;
+		min-width: 135px;
+		height: 2.75rem;
 		text-decoration: none;
 	}
 	
@@ -122,9 +217,9 @@
 		width: 100%;
 		height: 100%;
 		background: #2E65C2;
-		border-radius: 20px;
-		bottom: -4.5px;
-		right: -9px;
+		border-radius: 15px;
+		bottom: -2.25px;
+		right: -4.5px;
 		z-index: 1;
 	}
 	
@@ -133,7 +228,7 @@
 		width: 100%;
 		height: 100%;
 		background: #F62D93;
-		border-radius: 20px;
+		border-radius: 15px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -148,55 +243,79 @@
 	
 	.shop-now-btn__text {
 		font-family: 'Lalezar', sans-serif;
-		font-size: 33px;
+		font-size: 1.5rem;
 		line-height: 1;
 		color: #F4E6D2;
 		letter-spacing: 0.5px;
 		text-transform: uppercase;
 	}
 	
-	.header__cart svg {
-		width: 3.5rem;
-		min-width: 3.5rem;
-	}
-	.header__logo-image {
-		height: auto;
-		max-height: 100%;
-		width: auto;
-		max-width: 200px;
-	}
-	.header__title {
-		margin: 0;
-	}
-	
-	.header__menu a {
-		position: relative;
-		display: inline-block;
-		padding: 0 0 0.28125rem;
-		font-family: 'Lalezar', sans-serif;
-		font-weight: 400;
-		font-size: 2.25rem;
-		line-height: 1.1;
-		color: #F62D93;
-		text-transform: uppercase;
-		letter-spacing: 0.0703125rem;
-	}
-	
-	.header__menu a::after {
-		content: '';
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		width: 0;
-		height: 2px;
-		background: #F62D93;
-		transition: width 0.3s ease;
-	}
-
-	.header__menu a:hover::after {
-		width: 45px;
+	/* ===== DESKTOP STYLES ===== */
+	@media (min-width: 991px) {
+		header {
+			height: 7.5rem;
+		}
+		
+		.menu-container {
+			width: 100%;
+		}
+		
+		.mobile-menu-toggle,
+		.mobile-menu {
+			display: none;
+		}
+		
+		.desktop_menu {
+			display: flex;
+			justify-content: space-evenly;
+			width: 100%;
+		}
+		
+		.header__logo-image {
+			max-height: 5.625rem;
+		}
+		
+		/* larger shop now button on desktop */
+		.shop-now-btn {
+			min-width: 250px;
+			height: 75px;
+		}
+		
+		.shop-now-btn__shadow {
+			top: 4.5px;
+			left: 9px;
+		}
+		
+		.shop-now-btn__text {
+			font-size: 2rem;
+		}
+		
+		.header__icons {
+			gap: 3rem;
+		}
+		
+		.header__cart svg {
+			width: 3.5rem;
+			min-width: 3.5rem;
+		}
 	}
 {% endstylesheet %}
+
+{% javascript %}
+	document.addEventListener('DOMContentLoaded', function() {
+		const toggle = document.querySelector('.mobile-menu-toggle');
+		
+		if (toggle) {
+			toggle.addEventListener('click', function() {
+				const expanded = this.getAttribute('aria-expanded') === 'true';
+				this.setAttribute('aria-expanded', !expanded);
+				
+				const mobileMenu = document.querySelector('.mobile-menu');
+				mobileMenu.style.display = !epxanded ? 'flex' : 'none';
+			})
+		}
+	})
+{% endjavascript %}
 
 {% schema %}
 {
