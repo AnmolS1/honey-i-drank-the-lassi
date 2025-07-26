@@ -41,7 +41,8 @@
 		"text": "Text",
 		"theme": "Theme",
 		"typography": "Typography",
-		"hero": "Hero"
+		"hero": "Hero",
+		"intro": "Intro"
 	},
 	"labels": {
 		"alignment": "Alignment",
