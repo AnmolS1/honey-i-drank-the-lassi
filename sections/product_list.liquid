@@ -1,0 +1,40 @@
+{% comment %} page.liquid {% endcomment %}
+{% comment %} page.liquid {% endcomment %}
+<div class="product-list">
+	{% assign product1 = all_products['mango-lassi'] %}
+	{% assign product2 = all_products['rose-milk'] %}
+	{% assign product3 = all_products['coming-soon'] %}
+	
+	{% render 'product_card', product: product1 %}
+	{% render 'product_card', product: product2 %}
+	{% render 'product_card', product: product3 %}
+</div>
+
+
+{% stylesheet %}
+	.product-list {
+		display: flex;
+		flex-direction: column;
+	}
+
+	@media (min-width: 990px) {
+		.product-list {
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: space-between;
+		}
+		
+		.product-list > * {
+			flex: 1 1 30%;
+			min-width: 250px;
+		}
+	}
+{% endstylesheet %}
+
+{% schema %}
+{
+	"name": "t:general.product_list",
+	"class": "shopify-section--full-width",
+	"settings": []
+}
+{% endschema %}

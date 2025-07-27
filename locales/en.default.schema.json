@@ -42,7 +42,8 @@
 		"theme": "Theme",
 		"typography": "Typography",
 		"hero": "Hero",
-		"intro": "Intro"
+		"intro": "Intro",
+		"product_list": "Product list",
 	},
 	"labels": {
 		"alignment": "Alignment",
