@@ -28,6 +28,14 @@
 		"about": {
 			"type": "about",
 			"settings": {}
+		},
+		"ingredients": {
+			"type": "ingredients",
+			"settings": {}
+		},
+		"socials": {
+			"type": "socials",
+			"settings": {}
 		}
 	},
 	"order": [
@@ -35,6 +43,8 @@
 		"intro",
 		"product-list",
 		"gospel",
-		"about"
+		"about",
+		"ingredients",
+		"socials"
 	]
 }

@@ -45,7 +45,9 @@
 		"intro": "Intro",
 		"product_list": "Product list",
 		"gospel": "Gospel",
-		"about": "About"
+		"about": "About",
+		"ingredients": "Ingredients",
+		"socials": "Socials"
 	},
 	"labels": {
 		"alignment": "Alignment",
