@@ -44,6 +44,8 @@
 		"hero": "Hero",
 		"intro": "Intro",
 		"product_list": "Product list",
+		"gospel": "Gospel",
+		"about": "About"
 	},
 	"labels": {
 		"alignment": "Alignment",

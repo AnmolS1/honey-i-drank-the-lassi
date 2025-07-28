@@ -10,11 +10,31 @@
 {
 	"sections": {
 		"main": {
-			"type": "hello-world",
+			"type": "hero",
+			"settings": {}
+		},
+		"intro": {
+			"type": "intro",
+			"settings": {}
+		},
+		"product-list": {
+			"type": "product-list",
+			"settings": {}
+		},
+		"gospel": {
+			"type": "gospel",
+			"settings": {}
+		},
+		"about": {
+			"type": "about",
 			"settings": {}
 		}
 	},
 	"order": [
-		"main"
+		"main",
+		"intro",
+		"product-list",
+		"gospel",
+		"about"
 	]
 }
