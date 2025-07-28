@@ -1,0 +1,231 @@
+{% comment %} about.liquid {% endcomment %}
+<section class="about-section">
+	<div class="scrolling-banner">
+		<div class="scrolling-content" data-scroll-content data-repetitions="4">
+			<strong>20g</strong> protein <strong>130</strong> calories <strong>CLEAN</strong> ingredients
+		</div>
+	</div>
+	
+	<div class="about-title-container">
+		<h2 class="about-title">About Us</h2>
+	</div>
+	
+	<div class="scrolling-banner">
+		<div class="scrolling-content" data-scroll-content>
+			<strong>20g</strong> protein <strong>130</strong> calories <strong>CLEAN</strong> ingredients
+		</div>
+	</div>
+
+	<div class="about-content">
+		<div class="about-text">
+			<div class="about-subtitle">
+				They promised gains... but they delivered regret
+			</div>
+			
+			<div class="about-info">
+				<p>I've been lifting for years — and as a vegetarian South Asian trying to hit my protein goals, I was stuck. Everything was chocolate or vanilla, with a side of stomach upset.</p>
+				<p>So I stopped settling. I made something I actually wanted to drink. I made something even my 'anti-protein' brown parents liked drinking.</p>
+				<p>Yashvi</p>
+			</div>
+		</div>
+		
+		<div class="about-img-container">
+			<img src="{{ "abt-yashvi.png" | asset_url }}" alt="Yashvi" class="about-img" width="" height="">
+		</div>
+	</div>
+</section>
+
+{% stylesheet %}
+	.scrolling-banner {
+		overflow: hidden;
+		white-space: nowrap;
+		padding: 1rem 0;
+		font-weight: 400;
+		position: relative;
+	}
+	
+	.scrolling-content {
+		display: inline-block;
+		animation: scroll linear infinite;
+		font-family: 'Poppins', sans-serif;
+		color: #F62D93;
+		font-size: 1.2rem;
+		position: relative;
+		letter-spacing: 0;
+		font-weight: normal;
+		animation-duration: 15s;
+	}
+
+	@keyframes scroll {
+		0% { transform: translateX(0); }
+		100% { transform: translateX(var(--translate-to)); }
+	}
+	
+	.about-title-container {
+		padding: 1.5rem 0;
+		width: 100%;
+		position: relative;
+		overflow: hidden;
+	}
+	
+	.about-title {
+		font-size: 4rem;
+		font-weight: 800;
+		text-transform: uppercase;
+		text-align: center;
+		color: transparent;
+		-webkit-text-stroke: 2px #004AAD;
+		text-stroke: 2px #004AAD;
+		position: relative;
+		letter-spacing: 0.1em;
+		margin: 0 auto;
+		width: fit-content;
+	}
+	
+	.about-title::after {
+		content: 'About Us';
+		position: absolute;
+		top: 3px;
+		left: 3px;
+		color: #6485ED;
+		z-index: -1;
+		-webkit-text-stroke: 0;
+		text-stroke: 0;
+		width: 100%;
+		text-align: center;
+	}
+	
+	.about-content {
+		padding: 1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		background-color: #FFBD59;
+	}
+	
+	.about-text {
+		text-align: center;
+	}
+	
+	.about-subtitle {
+		font-size: 1.5rem;
+		color: #004AAD;
+		font-weight: 600;
+		margin-bottom: 1rem;
+		font-family: 'Lalezar', sans-serif;
+	}
+	
+	.about-info {
+		color: #004AAD;
+		font-family: 'Poppins', sans-serif;
+		font-size: 1.1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+	
+	@media (min-width: 990px) {
+		.scrolling-content {
+			font-size: 2rem;
+		}
+		
+		.about-title-container {
+			padding: 1rem 0;
+		}
+		
+		.about-content {
+			padding-left: 2rem;
+			padding-right: 0;
+			padding-top: 2rem;
+			padding-bottom: 0;
+			flex-direction: row;
+			align-items: center;
+			gap: 4rem;
+		}
+
+		.about-text {
+			width: 55%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 4rem;
+		}
+		
+		.about-info {
+			max-width: 770px;
+			font-size: 1.6rem;
+		}
+
+		.about-img-container {
+			width: 45%;
+		}
+		
+		.about-img {
+			position: sticky;
+			top: 2rem;
+		}
+
+		.about-title {
+			font-size: 7rem;
+			-webkit-text-stroke: 3px #004AAD;
+			text-stroke: 3px #004AAD;
+		}
+		
+		.about-subtitle {
+			font-size: 2rem;
+		}
+
+		.about-title::after {
+			top: 6px;
+			left: 6px;
+		}
+	}
+{% endstylesheet %}
+
+{% javascript %}
+	document.addEventListener('DOMContentLoaded', () => {
+		const scrollElements = document.querySelectorAll('[data-scroll-content]');
+		
+		scrollElements.forEach(el => {
+			const content = el.innerHTML;
+			const repetitions = parseInt(el.getAttribute('data-repetitions')) || 4;
+			let duplicatedContent = '';
+			
+			// Create multiple copies based on requested repetitions
+			for (let i = 0; i < repetitions; i++) {
+				duplicatedContent += content;
+			}
+			
+			el.innerHTML = duplicatedContent;
+			
+			// Calculate dynamic values
+			const singleWidth = el.scrollWidth / repetitions;
+			const visibleWidth = document.querySelector('.scrolling-banner').offsetWidth;
+			const visibleRepetitions = Math.ceil(visibleWidth / singleWidth);
+			const totalRepetitions = Math.max(repetitions, visibleRepetitions + 1);
+			
+			// Update content with enough copies to fill screen plus buffer
+			let finalContent = '';
+			for (let i = 0; i < totalRepetitions; i++) {
+				finalContent += content;
+			}
+			el.innerHTML = finalContent;
+			
+			// Set CSS variables for animation
+			const translatePercentage = -100 * (singleWidth / el.scrollWidth) * (totalRepetitions - visibleRepetitions);
+			el.style.setProperty('--translate-to', `${translatePercentage}%`);
+			
+			// Adjust animation duration based on content width
+			const duration = Math.max(10, (singleWidth * totalRepetitions) / 200);
+			el.style.animationDuration = `${duration}s`;
+		});
+	});
+{% endjavascript %}
+
+{% schema %}
+{
+	"name": "t:general.about",
+	"class": "shopify-section--full-width",
+	"settings": []
+}
+{% endschema %}

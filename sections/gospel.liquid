@@ -1,0 +1,238 @@
+{% comment %} gospel.liquid {% endcomment %}
+<section class="gospel-section">
+	<div class="gospel-section__inner">
+		<h2 class="gospel-title mobile-gt">
+			The <img src="{{ 'gm_logo_full.png' | asset_url }}" alt="Logo" class="gospel-title__logo" width="" height=""> Gospel
+		</h2>
+		
+		<div class="gospel-content">
+			<div class="gospel-table__wrapper">
+				<table class="gospel-table">
+					<thead>
+						<tr>
+							<th></th>
+							<th><img src="{{ 'gm_logo.png' | asset_url }}" alt="Logo" class="thead-logo" width="" height=""></th>
+							<th>Average Protein Shake</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>South Asian Flavor Options</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>70-80% Smaller Bottle</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								Clean Label
+								<p class="subtitle">(No: Ace K, Carrageenan, or unknown proprietary blends)</p>
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>Founder Led</td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="gospel-right-column">
+				<h2 class="gospel-title desktop-gt">
+					The <img src="{{ 'gm_logo_full.png' | asset_url }}" alt="Logo" class="gospel-title__logo" width="" height=""> Gospel
+				</h2>
+				
+				<div class="gospel-text">
+					<p class="gospel-paragraph">
+						At Go Mo, we believe protein should be simple, enjoyable, and worth looking forward to every day.
+					</p>
+					<p class="gospel-paragraph">
+						Growing up, home-cooked meals fueled us with warmth and tradition. But as we chased our own fitness goals and busy schedules, we realized protein shakes just didn't feel like... us.
+					</p>
+					<p class="gospel-paragraph">
+						So we decided to make our own.
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% stylesheet %}
+	.gospel-section {
+		padding: 2rem 2rem;
+		background-color: #FFBD59;
+	}
+
+	.gospel-section__inner {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	.gospel-title {
+		text-align: center;
+		text-transform: uppercase;
+		font-size: 2.5rem;
+		color: #004AAD;
+		margin-bottom: 2rem;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+	}
+	.desktop-gt { display: none; }
+	.mobile-gt { display: flex; }
+
+	.gospel-title__logo {
+		height: 1em;
+		width: auto;
+		vertical-align: middle;
+	}
+
+	.gospel-content {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	.gospel-table__wrapper {
+		width: 100%;
+		overflow-x: auto;
+	}
+
+	.gospel-table {
+		width: 100%;
+		table-layout: fixed;
+		border-collapse: separate;
+		border-spacing: 1px;
+		margin: 0 auto;
+	}
+	
+	.gospel-table th {
+		background-color: #f5f5f5;
+		font-weight: bold;
+		font-family: 'Lalezar';
+		font-size: 1.25rem;
+		color: #F62D93;
+	}
+	
+	.gospel-table td {
+		font-size: 1rem;
+		letter-spacing: -1.5px;
+		text-transform: uppercase;
+		color: #F62D93;
+		font-weight: 600;
+	}
+	
+	.gospel-table th,
+	.gospel-table td {
+		width: 33.33%;
+		padding: 0.75rem;
+		text-align: center;
+	}
+	
+	.gospel-table td:first-child,
+	.gospel-table th:first-child {
+		background-color: #FAECD7;
+		text-align: center;
+	}
+	
+	.gospel-table td:nth-child(2),
+	.gospel-table th:nth-child(2) {
+		background-color: #F62D93;
+		color: white;
+	}
+	
+	.gospel-table td:nth-child(3),
+	.gospel-table th:nth-child(3) {
+		background-color: #FAECD7;
+	}
+	
+	.gospel-table thead th:first-child {
+		visibility: hidden;
+		border: none;
+		background-color: transparent;
+	}
+	
+	/* logo located in table header */
+	.gospel-table thead th:nth-child(2) {
+		border-top-left-radius: 20px;
+		border-top-right-radius: 20px;
+		width: auto
+	}
+	.gospel-table thead th:last-child {
+		border-top-left-radius: 20px;
+		border-top-right-radius: 20px;
+	}
+	
+	.gospel-table tbody td:first-child {
+		border-top-left-radius: 20px;
+		border-bottom-left-radius: 20px;
+	}
+	
+	.gospel-text {
+		color: #004AAD;
+		font-family: 'Poppins', sans-serif;
+		font-size: 1.25rem;
+		letter-spacing: 0.75px;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 1rem;
+	}
+	
+	.subtitle {
+		font-size: 0.8rem;
+		text-transform: none;
+		letter-spacing: normal;
+		font-weight: normal;
+	}
+	
+	@media (min-width: 990px) {
+		.gospel-content {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 3rem;
+			align-items: start;
+		}
+
+		.gospel-right-column {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+		}
+		
+		.gospel-title {
+			text-align: center;
+			font-size: 4rem;
+			order: 1;
+			text-transform: uppercase;
+			letter-spacing: -2px;
+		}
+		.mobile-gt { display: none; }
+		.desktop-gt { display: flex; }
+		
+		.gospel-text {
+			order: 2;
+			flex: 1;
+		}
+		
+		.gospel-table td {
+			font-size: 1.25rem;
+		}
+	}
+{% endstylesheet %}
+
+{% schema %}
+{
+	"name": "t:general.gospel",
+	"class": "shopify-section--full-width",
+	"settings": []
+}
+{% endschema %}
