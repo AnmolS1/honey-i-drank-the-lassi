@@ -8,13 +8,45 @@
  * ------------------------------------------------------------
  */
 {
-	"sections": {
-		"main": {
-			"type": "hello-world",
-			"settings": {}
-		}
-	},
-	"order": [
-		"main"
-	]
+  "sections": {
+    "main": {
+      "type": "hero",
+      "settings": {
+        "hero_video": "shopify://files/videos/gm_rangyu.mp4"
+      }
+    },
+    "intro": {
+      "type": "intro",
+      "settings": {}
+    },
+    "product-list": {
+      "type": "product-list",
+      "settings": {}
+    },
+    "gospel": {
+      "type": "gospel",
+      "settings": {}
+    },
+    "about": {
+      "type": "about",
+      "settings": {}
+    },
+    "ingredients": {
+      "type": "ingredients",
+      "settings": {}
+    },
+    "socials": {
+      "type": "socials",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "intro",
+    "product-list",
+    "gospel",
+    "about",
+    "ingredients",
+    "socials"
+  ]
 }

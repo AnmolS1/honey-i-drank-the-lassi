@@ -1,6 +1,6 @@
 <h1 align="center" style="position: relative;">
 	<br>
-		<img src="./assets/logo-full.svg" alt="logo" width="200">
+		<img src="./assets/gm_logo_full.svg" alt="logo" width="200">
 	<br>
 	Golu Molu
 </h1>

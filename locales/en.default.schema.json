@@ -40,7 +40,14 @@
 		"sidebar": "Sidebar",
 		"text": "Text",
 		"theme": "Theme",
-		"typography": "Typography"
+		"typography": "Typography",
+		"hero": "Hero",
+		"intro": "Intro",
+		"product_list": "Product list",
+		"gospel": "Gospel",
+		"about": "About",
+		"ingredients": "Ingredients",
+		"socials": "Socials"
 	},
 	"labels": {
 		"alignment": "Alignment",
