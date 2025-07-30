@@ -39,7 +39,6 @@
 		font-family: 'Lalezar', sans-serif;
 		font-size: 2rem;
 		text-transform: uppercase;
-		color: #004AAD;
 	}
 	
 	.footer__copyright {
@@ -62,6 +61,25 @@
 		}
 	}
 {% endstylesheet %}
+
+{% if template == 'product' and product.metafields.custom.color %}
+	<style>
+		:root {
+			--c0: {{ product.metafields.custom.color.value[0] }};
+			--c1: {{ product.metafields.custom.color.value[1] }};
+			--c2: {{ product.metafields.custom.color.value[2] }};
+		}
+		
+		footer {
+			background-color: var(--c0);
+			margin-top: 0;
+		}
+		
+		.footer__links a {
+			color: var(--c2);
+		}
+	</style>
+{% endif %}
 
 {% schema %}
 {

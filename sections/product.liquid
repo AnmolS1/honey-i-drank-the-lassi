@@ -1,50 +1,450 @@
-{% comment %}
-	This section is used in the product template to render product page with
-	media, content, and add-to-cart form.
+{% comment %} product.liquid {% endcomment %}
+<section class="product-section" style="{% if product.metafields.custom.color %}background-color: {{ product.metafields.custom.color.value[2] }};{% endif %}">
+	<div class="product-container">
+		<div class="product-carousel-container">
+			<div class="product-carousel">
+				{% for image in product.images %}
+					<div class="carousel-slide {% if forloop.first %}active{% endif %}">
+						{% render 'image', class: 'product-main-image', image: image %}
+					</div>
+				{% endfor %}
+				<button class="carousel-arrow prev" aria-label="Previous image">&lt;</button>
+				<button class="carousel-arrow next" aria-label="Next image">&gt;</button>
+			</div>
+			<div class="carousel-thumbnails">
+				{% for image in product.images %}
+					<div class="thumbnail {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}">
+						{% render 'image', class: 'thumbnail-image', image: image %}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		
+		<div class="product-info">
+			<div class="product-header">
+				<h1 class="product-title">{{ product.title }}</h1>
+				<div class="product-tagline">High protein. Real flavor. Rooted in culture</div>
+			</div>
 
-	https://shopify.dev/docs/storefronts/themes/architecture/templates/product
-{% endcomment %}
+			<div class="desktop-content">
+				<div class="product-description">{{ product.description }}</div>
+				<div class="product-selectors">
+					<div class="product-option">
+						<label>Size</label>
+						<div class="size-option">6 Pack</div>
+					</div>
+					<div class="quantity-selector">
+						<label>Quantity</label>
+						<div class="quantity-controls">
+							<button class="quantity-btn minus">-</button>
+							<span class="quantity">1</span>
+							<button class="quantity-btn plus">+</button>
+						</div>
+					</div>
+				</div>
+				<button class="add-to-cart">Add to cart</button>
+			</div>
+		</div>
+	</div>
+	
+	<div class="mobile-content">
+		<div class="product-selectors">
+			<div class="product-option">
+				<label>Size</label>
+				<div class="size-option">6 Pack</div>
+			</div>
+			<div class="quantity-selector">
+				<label>Quantity</label>
+				<div class="quantity-controls">
+					<button class="quantity-btn minus">-</button>
+					<span class="quantity">1</span>
+					<button class="quantity-btn plus">+</button>
+				</div>
+			</div>
+		</div>
+		<button class="add-to-cart">Add to cart</button>
+		
+		<div class="product-description">{{ product.description }}</div>
+	</div>
+	
+	{% render 'nutrition_panel', product: product %}
+</section>
 
-<div class="product-images">
-	{% for image in product.images %}
-		{% render 'image', class: 'product-image', image: image %}
-	{% endfor %}
-</div>
+<style>
+	:root {
+		--c0: {{ product.metafields.custom.color.value[0] }};
+		--c1: {{ product.metafields.custom.color.value[1] }};
+		--c2: {{ product.metafields.custom.color.value[2] }};
+	}
+</style>
 
-<div class="product-info">
-	<h1>{{ product.title }}</h1>
-	<p>{{ product.price | money }}</p>
-	<p>{{ product.description }}</p>
-</div>
+{% stylesheet %}
+	/* ===== BASE STYLES ===== */
+	.product-section {
+		font-family: 'Lalezar', sans-serif;
+		padding: 3rem 20px;
+		min-height: 100vh;
+	}
 
-<div class="product-form">
-	{% form 'product', product %}
-		{% assign current_variant = product.selected_or_first_available_variant %}
+	.product-container {
+		display: flex;
+		flex-direction: row;
+		max-width: 1200px;
+		margin: 0 auto;
+		gap: 10px;
+	}
 
-		<select name="id">
-			{% for variant in product.variants %}
-				<option
-					value="{{ variant.id }}"
-					{% if variant == current_variant %}
-						selected="selected"
-					{% endif %}
-				>
-					{{ variant.title }} - {{ variant.price | money }}
-				</option>
-			{% endfor %}
-		</select>
+	/* ===== CAROUSEL STYLES ===== */
+	.product-carousel-container {
+		width: 70%;
+	}
 
-		<input type="text" name="quantity" min="1" value="1">
+	.product-carousel {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 3/4;
+		max-height: 70vh;
+		margin: 0 auto;
+		overflow: hidden;
+		border-radius: 8px;
+	}
 
-		<input type="submit" value="Add to cart">
-		{{ form | payment_button }}
-	{% endform %}
-</div>
+	.carousel-slide {
+		display: none;
+		width: 100%;
+		height: 100%;
+	}
+
+	.carousel-slide.active {
+		display: flex;
+		justify-content: center;;
+	}
+
+	.product-main-image {
+		height: 100%;
+		object-fit: contain !important;
+		object-position: center !important;
+	}
+	
+	.image, .image > img {
+		width: fit-content !important;
+		height: 100% !important;
+	}
+
+	.carousel-arrow {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		background: transparent;
+		color: var(--c0);
+		font-family: 'Puritan', 'Lalezar', sans-serif;
+		border: none;
+		border-radius: 50%;
+		width: 40px;
+		height: 40px;
+		font-size: 1.2rem;
+		cursor: pointer;
+		z-index: 10;
+	}
+
+	.prev { left: 5%; }
+	.next { right: 5%; }
+
+	.carousel-thumbnails {
+		display: none;
+		justify-content: center;
+		gap: 10px;
+		margin-top: 15px;
+	}
+
+	.thumbnail {
+		width: 60px;
+		height: 60px;
+		border-radius: 50%;
+		border: 2px solid transparent;
+		overflow: hidden;
+		cursor: pointer;
+		
+		display: flex;
+		justify-content: center;
+	}
+
+	.thumbnail.active {
+		border-color: #F62D93;
+	}
+
+	.thumbnail-image {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	/* ===== PRODUCT INFO STYLES ===== */
+	.product-info {
+		width: 100%;
+	}
+
+	.product-header {
+		margin-bottom: 20px;
+		text-align: center;
+	}
+
+	.product-title {
+		font-size: 5rem;
+		text-transform: lowercase;
+		color: var(--c1);
+		margin-bottom: 0.5rem;
+		line-height: 5rem;
+	}
+
+	.product-tagline {
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--c0);
+		text-transform: uppercase;
+		margin-bottom: 0.5rem;
+	}
+
+	.product-description {
+		font-family: 'Poppins', sans-serif;
+		font-weight: 700;
+		text-align: center;
+		line-height: 1.6;
+		color: var(--c1);
+		
+		margin: 2rem 0;
+		width: 80%;
+		padding: 1.5rem;
+		border-radius: 50px;
+		
+		background-color: #FAECD7;
+	}
+
+	.product-selectors {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		margin-bottom: 20px;
+		width: 80%;
+		font-size: 1.2rem;
+		color: var(--c0);
+	}
+
+	.product-option, .quantity-selector {
+		display: flex;
+		align-items: center;
+		gap: 15px;
+	}
+	
+	.product-option label, .quantity-selector label {
+		min-width: 7rem;
+		font-weight: bold;
+		text-transform: uppercase;
+		font-size: 1.5rem;
+	}
+	
+	.size-option {
+		background-color: #FAECD7;
+		width: 100%;
+		border-radius: 1rem;
+		text-transform: uppercase;
+		border: 1px solid var(--c0);
+		padding-left: 2rem;
+	}
+	
+	.quantity {
+		min-width: 20px;
+		text-align: center;
+	}
+
+	.quantity-controls {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	.quantity-btn {
+		width: 30px;
+		height: 30px;
+		border: 1px solid var(--c0);
+		background: #FAECD7;
+		border-radius: 50%;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: bold;
+		color: var(--c0);
+		transition: all 0.3s ease;
+	}
+	
+	.quantity-btn:hover {
+		background: var(--c0);
+		color: white;
+	}
+
+	.add-to-cart {
+		width: 80%;
+		padding: 12px;
+		background: var(--c0);
+		color: white;
+		border: none;
+		border-radius: 25px;
+		border: 1px solid var(--c0);
+		font-weight: bold;
+		cursor: pointer;
+		transition: background 0.3s ease;
+	}
+
+	.add-to-cart:hover {
+		background: #e0257d;
+	}
+	
+	.desktop-content {
+		display: none;
+	}
+	
+	.mobile-content {
+		margin-top: 1rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+	}
+
+	/* ===== DESKTOP STYLES ===== */
+	@media (min-width: 990px) {
+		.product-container {
+			flex-direction: row;
+			align-items: flex-start;
+			gap: 40px;
+		}
+
+		.product-carousel-container {
+			width: 33.33%;
+			position: sticky;
+			top: 20px;
+		}
+		
+		.product-title {
+			font-size: 7.5rem;
+			line-height: 7rem;
+		}
+
+		.product-info {
+			width: 66.66%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		
+		.carousel-arrow {
+			font-size: 3rem;
+		}
+
+		.carousel-thumbnails {
+			display: flex;
+		}
+		
+		.product-selectors, .add-to-cart {
+			width: 70%;
+		}
+		
+		.product-description {
+			width: 70%;
+			margin-top: 0;
+		}
+
+		.mobile-content {
+			display: none;
+		}
+
+		.desktop-content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+	}
+{% endstylesheet %}
+
+{% javascript %}
+	function toggleNutrition() {
+		const toggle = document.querySelector('.nutrition-toggle');
+		const expanded = toggle.getAttribute('aria-expanded') === 'true';
+		toggle.setAttribute('aria-expanded', !expanded);
+		
+		// Force reflow for smooth animation
+		const dropdown = document.querySelector('.nutrition-dropdown');
+		if (!expanded) {
+			dropdown.style.display = 'block';
+			const height = dropdown.scrollHeight;
+			dropdown.style.maxHeight = height + 'px';
+		} else {
+			dropdown.style.maxHeight = '0';
+			dropdown.addEventListener('transitionend', function() {
+				if (dropdown.style.maxHeight === '0px') {
+					dropdown.style.display = 'none';
+				}
+			}, { once: true });
+		}
+	}
+
+	document.addEventListener('DOMContentLoaded', function() {
+		// Carousel functionality
+		const slides = document.querySelectorAll('.carousel-slide');
+		const thumbnails = document.querySelectorAll('.thumbnail');
+		const prevBtn = document.querySelector('.prev');
+		const nextBtn = document.querySelector('.next');
+		let currentIndex = 0;
+
+		function showSlide(index) {
+			slides.forEach(slide => slide.classList.remove('active'));
+			thumbnails.forEach(thumb => thumb.classList.remove('active'));
+			
+			slides[index].classList.add('active');
+			thumbnails[index].classList.add('active');
+			currentIndex = index;
+		}
+
+		thumbnails.forEach((thumb, index) => {
+			thumb.addEventListener('click', () => showSlide(index));
+		});
+
+		prevBtn.addEventListener('click', () => {
+			const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+			showSlide(newIndex);
+		});
+
+		nextBtn.addEventListener('click', () => {
+			const newIndex = (currentIndex + 1) % slides.length;
+			showSlide(newIndex);
+		});
+
+		// Quantity controls
+		const minusBtn = document.querySelector('.minus');
+		const plusBtn = document.querySelector('.plus');
+		const quantityDisplay = document.querySelector('.quantity');
+		let quantity = 1;
+
+		minusBtn.addEventListener('click', () => {
+			if (quantity > 1) {
+				quantity--;
+				quantityDisplay.textContent = quantity;
+			}
+		});
+
+		plusBtn.addEventListener('click', () => {
+			quantity++;
+			quantityDisplay.textContent = quantity;
+		});
+	});
+{% endjavascript %}
 
 {% schema %}
 {
 	"name": "t:general.product",
 	"settings": [],
+	"class": "shopify-section--full-width",
 	"disabled_on": {
 		"groups": ["header", "footer"]
 	}

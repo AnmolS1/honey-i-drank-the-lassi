@@ -41,7 +41,9 @@
 		<a href="{{ routes.all_products_collection_url }}" class="shop-now-btn">
 			<span class="shop-now-btn__shadow"></span>
 			<span class="shop-now-btn__main">
-				<span class="shop-now-btn__text">SHOP NOW</span>
+				<span class="shop-now-btn__content">
+					<span class="shop-now-btn__text">SHOP NOW</span>
+				</span>
 			</span>
 		</a>
 		
@@ -205,9 +207,10 @@
 		align-items: center;
 	}
 	
-	.header__cart svg {
+	.header__cart {
 		width: 2.5rem;
 		min-width: 2.5rem;
+		color: #2E65C2;
 	}
 	
 	/* shop now button */
@@ -253,7 +256,7 @@
 		font-family: 'Lalezar', sans-serif;
 		font-size: 1.5rem;
 		line-height: 1;
-		color: #F4E6D2;
+		color: #FEEED3;
 		letter-spacing: 0.5px;
 		text-transform: uppercase;
 	}
@@ -308,6 +311,35 @@
 		}
 	}
 {% endstylesheet %}
+
+{% if template == 'product' and product.metafields.custom.color %}
+	<style>
+		:root {
+			--product-color-dark: {{ product.metafields.custom.color.value[0] }};
+			--product-color-med: {{ product.metafields.custom.color.value[1] }};
+			--product-color-light: {{ product.metafields.custom.color.value[2] }};
+		}
+		
+		.menu-container a {
+			color: var(--product-color-med);
+		}
+		
+		.hamburger, .hamburger::before, .hamburger::after {
+			background: var(--product-color-med);
+		}
+		
+		.shop-now-btn__main {
+			background-color: var(--product-color-med);
+		}
+		.shop-now-btn__shadow {
+			background-color: var(--product-color-light);
+		}
+		
+		.header__cart path {
+			color: var(--product-color-med);
+		}
+	</style>
+{% endif %}
 
 {% javascript %}
 	document.addEventListener('DOMContentLoaded', function() {
