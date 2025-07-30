@@ -1,9 +1,10 @@
 {%- assign product = product | default: blank -%}
 {%- assign color_metafield = product.metafields.custom.color -%}
-{%- assign primary_color = color_metafield.value[0] | default: '#F27141' -%}
-{%- assign accent_color = color_metafield.value[1] | default: '#C85416' -%}
+{% assign c0 = color_metafield.value[0] %}
+{% assign c1 = color_metafield.value[1] %}
+{% comment %} {% assign c2 = color_metafield.value[2] %} {% endcomment %}
 
-<div class="product-card" style="--primary: {{ primary_color }}; --accent: {{ accent_color }};">
+<div class="product-card" style="--primary: {{ c1 }}; --accent: {{ c0 }};">
 	<div class="product-card__image">
 		{% if product.images.size > 0 %}
 			{% assign last_image = product.images.last %}
